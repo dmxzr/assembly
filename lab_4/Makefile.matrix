@@ -1,0 +1,27 @@
+AS      = nasm
+LD      = ld
+
+ASCENDING ?= 1
+
+ASFLAGS = -f elf64 -DASCENDING=$(ASCENDING)
+LDFLAGS =
+
+SRC = matrix.asm
+OBJ = matrix.o
+EXE = matrix
+
+.PHONY: all clean run
+
+all: $(EXE)
+
+$(EXE): $(OBJ)
+	$(LD) $(OBJ) -o $@ $(LDFLAGS)
+
+$(OBJ): $(SRC)
+	$(AS) $(ASFLAGS) $< -o $@
+
+run: $(EXE)
+	./$(EXE)
+
+clean:
+	rm -f $(OBJ) $(EXE)
